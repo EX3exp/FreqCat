@@ -1,0 +1,159 @@
+<ResourceDictionary
+	xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:system="clr-namespace:System;assembly=System.Runtime">
+	<FontFamily x:Key="DefaultFont">avares://Mirivoice.Main/Assets/Fonts/Pretendard-1.3.9/public/static/alternative#Pretendard</FontFamily>
+	<FontFamily x:Key="NormalFont">avares://Mirivoice.Main/Assets/Fonts/SUITE-ttf#SUITE</FontFamily>
+	<FontFamily x:Key="LineFont">avares://Mirivoice.Main/Assets/Fonts/학교안심 그림일기#Hakgyoansim Geurimilgi</FontFamily>
+	<FontFamily x:Key="VoicerNameFont">avares://Mirivoice.Main/Assets/Fonts/Jua#Jua</FontFamily>
+	
+	<system:String x:Key="app.yes">Yes</system:String>
+	<system:String x:Key="app.no">No</system:String>
+	<system:String x:Key="app.cancel">Cancel</system:String>
+	<system:String x:Key="app.ok">OK</system:String>
+	
+	<system:String x:Key="app.beforeExit">Current Project File is not saved. Do you want to save? </system:String>
+	<system:String x:Key="app.openproject">Open Project</system:String>
+	<system:String x:Key="app.saveproject">Save Project</system:String>
+	
+	<system:String x:Key="app.defprojectname">New Project</system:String>
+	<system:String x:Key="app.Error">Error</system:String>
+
+	
+	<system:String x:Key="updater.title">Update Checker</system:String>
+	<system:String x:Key="updater.description">Open-Free TTS Platform For All</system:String>
+	<system:String x:Key="updater.status.available">MiriVoice v{0} is available!</system:String>
+	<system:String x:Key="updater.status.checking">Checking for Updates...</system:String>
+	<system:String x:Key="updater.status.notavailable">(Latest)</system:String>
+	<system:String x:Key="updater.status.unknown">Update Checking Failed...</system:String>
+	<system:String x:Key="updater.update">Update</system:String>
+
+	<system:String x:Key="singlelinebox.placeholder">(Line is empty)</system:String>
+
+	<system:String x:Key="edits.phoneme">Phonemes</system:String>
+	<system:String x:Key="edits.expression">Expressions</system:String>
+	<system:String x:Key="edits.expression.speedVITS2">Speed</system:String>
+	<system:String x:Key="edits.expression.noise1VITS2">Noise Scale</system:String>
+	<system:String x:Key="edits.expression.noise2VITS2">Noise Weight</system:String>
+	<!--
+	<system:String x:Key="edits.pitch">Pitch</system:String>
+	-->
+	<!-- Menu -->
+	<!--files...-->
+	<system:String x:Key="menu.files.title">Files</system:String>
+	
+	<system:String x:Key="menu.files.open">Open...</system:String>
+	<system:String x:Key="menu.files.open.upgrade">Project file is newer than software. 
+	Please upgrade MiriVoice!</system:String>
+	<system:String x:Key="menu.files.recent">Recent...</system:String>
+	<system:String x:Key="menu.files.openFailed">An Error occured during open file. 
+	Please Check Log file for more informations.</system:String>
+	
+	<system:String x:Key="menu.files.recent.openFailed">Selected Recent file not exists. 
+	It seems to be already removed from your disk.</system:String>
+	
+	<system:String x:Key="menu.files.save">Save</system:String>
+	<system:String x:Key="menu.files.saveas">Save As...</system:String>
+	<system:String x:Key="menu.files.new">New</system:String>
+	
+	
+	<system:String x:Key="menu.files.export">Export</system:String>
+	<system:String x:Key="menu.files.export.perLine">Export audios per lines (.wav)</system:String>
+	<system:String x:Key="menu.files.export.failed">
+		An Error occured during export.
+		Please Check Log file for more informations.</system:String>
+	<system:String x:Key="menu.files.export.perLine.desc">Select Directory to export</system:String>
+	<system:String x:Key="menu.files.export.selectedLine">Export selected line's audio (.wav)</system:String>
+	<system:String x:Key="menu.files.export.selectedLine.desc">Set Filename to export</system:String>
+	<system:String x:Key="menu.files.export.selectedLine.noSelected">There's no selected line...</system:String>
+	<system:String x:Key="menu.files.export.merged">Export merged audio (.wav)</system:String>
+	<system:String x:Key="menu.files.export.merged.desc">Set Filename to export</system:String>
+
+	<system:String x:Key="menu.files.export.srt">Export SubRip Text for merged audio (.srt)</system:String>
+	<system:String x:Key="menu.files.export.srt.desc">Set Filename to export</system:String>
+	
+	
+	<!--project...-->
+	<system:String x:Key="menu.project.title">Project</system:String>
+	<system:String x:Key="menu.project.undo">Undo</system:String>
+	<system:String x:Key="menu.project.redo">Redo</system:String>
+	
+	<system:String x:Key="menu.project.pref">Project Expressions</system:String>
+	<system:String x:Key="menu.project.clearCache">Clear Cache</system:String>
+	
+	<!--tools...-->
+	<system:String x:Key="menu.tools.title">Tools</system:String>
+	<system:String x:Key="menu.tools.settings">Global Settings</system:String>
+	<system:String x:Key="menu.tools.voicers">Voicers</system:String>
+	
+	<system:String x:Key="menu.tools.voicerinstall">Install Voicer...</system:String>
+	<system:String x:Key="menu.tools.voicerinstall.desc">Select .zip file to install Voicer</system:String>
+	<system:String x:Key="menu.tools.voicerinstall.process">Installing Voicer...</system:String>
+	
+	<system:String x:Key="menu.tools.voicerinstall.error">Failed to install Voicer. 
+	There's no voicer.yaml inside the archive.</system:String>
+	<system:String x:Key="menu.tools.voicerinstall.success">Voicer installed successfully!</system:String>
+	<system:String x:Key="menu.tools.voicerinstall.failed">
+		Failed to install Voicer.
+		Please Check Log file for more informations.
+	</system:String>
+	
+	<system:String x:Key="menu.tools.voicerMakingSupport">Voicer Making Support...</system:String>
+	<system:String x:Key="menu.tools.voicerMakingSupport.preprocessor">Transcription IPA Converter</system:String>
+	<system:String x:Key="menu.tools.voicerMakingSupport.preprocessor.langCode">LangCode</system:String>
+	<system:String x:Key="menu.tools.voicerMakingSupport.preprocessor.inputFile">Input File</system:String>
+	<system:String x:Key="menu.tools.voicerMakingSupport.preprocessor.browse">Browse</system:String>
+	<system:String x:Key="menu.tools.voicerMakingSupport.preprocessor.convert">Convert</system:String>
+	<system:String x:Key="menu.tools.voicerMakingSupport.preprocessor.noFile">No file selected</system:String>
+	
+	
+	<!--help...-->
+	<system:String x:Key="menu.help.title">Help</system:String>
+	<system:String x:Key="menu.help.update">Check Updates</system:String>
+	<system:String x:Key="menu.help.github">Visit GitHub</system:String>
+	<system:String x:Key="menu.help.openLogDir">Open Log Directory...</system:String>
+	
+	<!--editor body 1 -->
+	<system:String x:Key="editor.input.mult.title">Lines Input</system:String>
+	<system:String x:Key="editor.input.mult.desc">You can input multiple Lines here, separating each lines with "Enter" key. 
+	You can Change Voicer with: 
+		[Voicer nickname] (Style)
+		- Your lines here -
+
+	Example:
+		안녕하세요!
+		[미리] (bright)
+		날씨가 좋네요! </system:String>
+
+	
+	<system:String x:Key="editor.input.mult.defaultVoicerName">Default Voicer</system:String>
+	<system:String x:Key="editor.input.mult.defaultVoicerStyle">Style</system:String>
+
+	<system:String x:Key="editor.input.mult.genLines">Generate Lines</system:String>
+	
+	<!--editor body 2-->
+	<system:String x:Key="editor.lines.title">Lines</system:String>
+	
+	<!--Global Settings-->
+	<system:String x:Key="gprefs.title">Global Settings</system:String>
+	<system:String x:Key="gprefs.lang">UI Language</system:String>
+	
+	<system:String x:Key="gprefs.lang.en">English</system:String>
+	<system:String x:Key="gprefs.lang.ko">한국어</system:String>
+	
+	<system:String x:Key="gprefs.clearcacheonquit">Clear Caches On Quit</system:String>
+	<system:String x:Key="gprefs.usebeta">Use Beta Version</system:String>
+	
+	<!-- Voicers -->
+	<system:String x:Key="voicers.title">Voicers</system:String>
+	<system:String x:Key="voicers.voicer">Voicer</system:String>
+	<system:String x:Key="voicers.readme">Read Me: </system:String>
+
+	<system:String x:Key="voicers.styles">Styles: </system:String>
+	<system:String x:Key="voicers.illust">Illustrator. </system:String>
+	
+	<system:String x:Key="voicers.engineer">Engineer. </system:String>
+	<system:String x:Key="voicers.voice">CV. </system:String>
+	<system:String x:Key="voicers.author">Author. </system:String>
+	
+</ResourceDictionary>
