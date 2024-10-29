@@ -98,8 +98,8 @@
 							
 						</StackPanel>
 
-						<ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Visible" AllowAutoHide="False" VerticalScrollBarVisibility="Disabled">
-							<Canvas x:Name="catCanvas" >
+						<ScrollViewer Grid.Row="1" PointerWheelChanged="OnPointerWheelChanged" HorizontalScrollBarVisibility="Visible" AllowAutoHide="False" VerticalScrollBarVisibility="Disabled">
+							<Canvas x:Name="catCanvas" ClipToBounds="True">
 								<Polyline Points="{Binding CurrentWavPlotPoints}" VerticalAlignment="Center" Stroke="LightGreen" StrokeThickness="1"></Polyline>
 							</Canvas>
 						</ScrollViewer>

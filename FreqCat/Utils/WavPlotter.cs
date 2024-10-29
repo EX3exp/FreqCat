@@ -21,7 +21,7 @@ namespace FreqCat.Utils
         /// </summary>
         /// <param name="filePath"></param>
         /// <returns></returns>
-        private static float[] ExtractAudioSamples(string filePath, int targetsampleAmt, double Height, int waveformHeight)
+        private static float[] ExtractAudioSamples(string filePath, int targetsampleAmt, double Height)
         {
             using (var audioFile = new AudioFileReader(filePath))
             {
@@ -81,10 +81,6 @@ namespace FreqCat.Utils
             double _ymax = 1;
 
             double maxminusmin = _ymax - _ymin;
-            if (maxminusmin == 0)
-            {
-                maxminusmin = 0.000001; // Epsilon
-            }
 
             for (int i = 0; i < samples.Length; ++i)
             {
@@ -101,9 +97,9 @@ namespace FreqCat.Utils
         /// <param name="dpi"></param>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        public static Points GetWavFormPoints(string filePath, double Width, double Height, int waveformHeight = 400)
+        public static Points GetWavFormPoints(string filePath, double Width, double Height)
         {
-            float[] samples = ExtractAudioSamples(filePath, 9216, Height, waveformHeight);
+            float[] samples = ExtractAudioSamples(filePath, 9216, Height);
             Points points = new Points();
 
             for (int i = 0; i < samples.Length; ++i)

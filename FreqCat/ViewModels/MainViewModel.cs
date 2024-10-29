@@ -15,6 +15,8 @@ using FreqCat.Utils;
 using System.Linq;
 using Avalonia.Interactivity;
 using Avalonia;
+using Avalonia.Input;
+using Avalonia.Input.Raw;
 
 namespace FreqCat.ViewModels;
 
@@ -200,6 +202,7 @@ public class MainViewModel : ViewModelBase
             CurrentProjectPath = (string)mainWindow.FindResource("app.defprojectname");
         }
         initFcat = new Fcat(this);
+        SetGestures();
         MainManager.Instance.cmd.SetMainViewModel(this);
         OnInitialDirSelect();
 
@@ -227,6 +230,14 @@ public class MainViewModel : ViewModelBase
         if (frqIndexes is null)
         {
             return; // not initialized
+        }
+        if (CurrentFrqIndex == -1)
+        {
+            return; // not selected
+        }
+        if (CurrentDirIndex == -1)
+        {
+            return; // not selected
         }
         // frq selection changed
         frqIndexes[CurrentDirIndex] = CurrentFrqIndex;
@@ -342,6 +353,23 @@ public class MainViewModel : ViewModelBase
         }
     }
 
+    public void OnZoom(double zoomAmt)
+    {
+        Log.Debug($"Zooming: {zoomAmt}");
+        // TODO
+    }
+        public void SetGestures()
+    {
+        if (OS.IsMacOS())
+        {
+            
+           
+        }
+        else
+        {
+            
+        }
+    }
     public void PaneToggle()
     {
         IsPaneOpen = !IsPaneOpen;
