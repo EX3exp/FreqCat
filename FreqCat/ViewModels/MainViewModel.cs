@@ -156,7 +156,18 @@ public class MainViewModel : ViewModelBase
     }
     private int lastDirIndex = -1;
 
-    private int[] frqIndexes;
+    private int[] frqIndexes; // stores selected frq indexes for each directory
+
+    private string _currentFrqName;
+    public string CurrentFrqName
+    {
+        get => _currentFrqName;
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _currentFrqName, value);
+            OnPropertyChanged(nameof(CurrentFrqName));
+        }
+    }
 
     private ListBoxItem[] _currentFrqs;
     public ListBoxItem[] CurrentFrqs 
@@ -199,12 +210,35 @@ public class MainViewModel : ViewModelBase
         CurrentFrqIndex = frqIndexes[CurrentDirIndex];
     }
 
+    string CurrentWavPath = string.Empty;
     public void FrqSelectionChanged()
     {
         // frq selection changed
         frqIndexes[CurrentDirIndex] = CurrentFrqIndex;
 
+        // change frq name
+        CurrentFrqName = Path.GetFileName(DirectoryLoader.Data.Datas[CurrentDirIndex].Datas[CurrentFrqIndex].FilePath);
+        CurrentWavPath = Path.Combine(DirectoryLoader.Data.Datas[CurrentDirIndex].Datas[CurrentFrqIndex].FilePath.Replace("_wav.frq", ".wav"));
+
         // todo show graphics. if selected frq is not exist, show error message
+    }
+
+    bool isPlaying = false;
+    public void OnPlayButtonClick()
+    {
+        // play wav file
+        if (isPlaying && MainManager.Instance.AudioM.IsPlaying)
+        {
+            MainManager.Instance.AudioM.StopAudio();
+            isPlaying = false;
+            
+        }
+        else
+        {
+            isPlaying = true;
+            MainManager.Instance.AudioM.PlayAudio(CurrentWavPath);
+        }
+        
     }
     public async void OnNewButtonClick()
     {

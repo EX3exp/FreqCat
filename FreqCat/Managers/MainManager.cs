@@ -21,6 +21,7 @@ namespace FreqCat
 
         public CommandManager cmd = new CommandManager();
 
+        public AudioManager AudioM = new AudioManager();
         public IconManager IconM;// will be initialized in MainViewModel
 
         public int DefaultVoicerIndex = 0;

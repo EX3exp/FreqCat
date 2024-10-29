@@ -88,6 +88,21 @@
 				</SplitView.Pane>
 
 				<Grid>
+					
+					<Grid RowDefinitions="30 *">
+						<StackPanel Grid.Row="0"  Orientation="Horizontal" Height="30">
+							<Button Command="{Binding OnPlayButtonClick}" Width="30" Height="30" Margin="10 0 0 0">
+								<Path Data="{StaticResource speaker_regular}" Stretch="Fill" ClipToBounds="True" Margin="0 0 0 0"  Width="25" Height="25" Fill="Gray"/>
+							</Button>
+							<TextBlock Text="{Binding CurrentFrqName}" Margin="10 3 10 3" FontSize="20" HorizontalAlignment="Center"></TextBlock>
+							
+						</StackPanel>
+						<Rectangle Grid.Row="1" Fill="LightGreen">
+								
+						</Rectangle>
+
+					</Grid>
+					
 					<Button  HorizontalAlignment="Center" CornerRadius="5" MinHeight="50" MinWidth="200" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="10 10 10 10" VerticalAlignment="Center" Content="{DynamicResource menu.files.init.btn}" FontSize="20" IsVisible="{Binding IsRootNotSet}" Command="{Binding OnInitialDirSelect} "></Button>
 				</Grid>
 			</SplitView>
