@@ -11,11 +11,15 @@ using System.Threading.Tasks;
 using Avalonia.Platform.Storage;
 using System.IO;
 using FreqCat.Format;
+using FreqCat.Utils;
+using System.Linq;
+using Avalonia.Interactivity;
 
 namespace FreqCat.ViewModels;
 
 public class MainViewModel : ViewModelBase
 {
+    private Fcat initFcat;
     MainWindow mainWindow;
     Version Version = Assembly.GetEntryAssembly()?.GetName().Version;
 
@@ -69,7 +73,7 @@ public class MainViewModel : ViewModelBase
         }
     }
 
-    private bool _isPaneOpen;
+    private bool _isPaneOpen = false;
     public bool IsPaneOpen
     {
         get => _isPaneOpen;
@@ -80,6 +84,90 @@ public class MainViewModel : ViewModelBase
         }
     }
 
+    private DirectoryLoader _directoryLoader;
+    public DirectoryLoader DirectoryLoader
+    {
+        get => _directoryLoader;
+        set
+        {
+            if (value is null)
+            {
+                return;
+            }
+            this.RaiseAndSetIfChanged(ref _directoryLoader, value);
+            frqIndexes = new int[value.Data.Datas.Length]; // set selected frq indexes to 0
+            CurrentDirs = value.Data.Datas.Select(
+                x => new TabItem
+                {
+                    Header = x.DirName
+                }).ToArray();
+
+            // set frqs to the first directory
+            if (! (value.Data.Datas.Length == 0)) 
+            { 
+                CurrentFrqs = value.Data.Datas[0].Datas.Select(
+                x => new ListBoxItem
+                {
+                    Content = x.FileName
+                }
+                ).ToArray();
+            }
+
+            
+
+            IsRootNotSet = false;
+            OnPropertyChanged(nameof(DirectoryLoader));
+        }
+    }
+    
+
+    private TabItem[] _currentDirs;
+    public TabItem[] CurrentDirs
+    {
+        get => _currentDirs;
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _currentDirs, value);
+            
+            OnPropertyChanged(nameof(CurrentDirs));
+        }
+    }
+
+    private int _currentDirIndex = -1;
+    public int CurrentDirIndex
+    {
+        get => _currentDirIndex;
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _currentDirIndex, value);
+            OnPropertyChanged(nameof(CurrentDirIndex));
+        }
+    }
+
+    private int _currentFrqIndex = -1;
+    public int CurrentFrqIndex
+    {
+        get => _currentFrqIndex;
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _currentFrqIndex, value);
+            OnPropertyChanged(nameof(CurrentFrqIndex));
+        }
+    }
+    private int lastDirIndex = -1;
+
+    private int[] frqIndexes;
+
+    private ListBoxItem[] _currentFrqs;
+    public ListBoxItem[] CurrentFrqs 
+    {
+        get => _currentFrqs;
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _currentFrqs, value);
+            OnPropertyChanged(nameof(CurrentFrqs));
+        }
+    }
     public ObservableCollection<MenuItem> RecentMenuCollection { get; set; } = new ObservableCollection<MenuItem>();
     public static FilePickerFileType FreqCatProject { get; } = new("FreqCat Project File")
     {
@@ -99,6 +187,58 @@ public class MainViewModel : ViewModelBase
         {
             CurrentProjectPath = (string)mainWindow.FindResource("app.defprojectname");
         }
+        initFcat = new Fcat(this);
+        MainManager.Instance.cmd.SetMainViewModel(this);
+        OnInitialDirSelect();
+
+    }
+    
+    public void DirSelectionChanged()
+    {
+        // directory selection changed
+        CurrentFrqIndex = frqIndexes[CurrentDirIndex];
+    }
+
+    public void FrqSelectionChanged()
+    {
+        // frq selection changed
+        frqIndexes[CurrentDirIndex] = CurrentFrqIndex;
+
+        // todo show graphics. if selected frq is not exist, show error message
+    }
+    public async void OnNewButtonClick()
+    {
+
+        if (MainManager.Instance.cmd.IsNeedSave)
+        {
+            if (!await AskIfSaveAndContinue())
+            {
+                return;
+            }
+            ClearUI();
+            CurrentProjectPath = (string)mainWindow.FindResource("app.defprojectname");
+
+            
+            OnInitialDirSelect();
+            MainManager.Instance.cmd.ProjectOpened();
+        }
+        else
+        {
+            ClearUI();
+            CurrentProjectPath = (string)mainWindow.FindResource("app.defprojectname");
+
+            MainManager.Instance.cmd.ProjectOpened();
+            OnInitialDirSelect();
+
+        }
+
+    }
+
+    void ClearUI()
+    {
+        CurrentDirs = null;
+        CurrentFrqs = null;
+        DirectoryLoader = null;
     }
 
     bool forceClose = false;
@@ -171,6 +311,79 @@ public class MainViewModel : ViewModelBase
                 return false; // Cancel.
         }
     }
+
+    private bool _PaneToggleselected = false;
+    public bool PaneToggleSelected
+    {
+        get => _PaneToggleselected;
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _PaneToggleselected, value);
+            OnPropertyChanged(nameof(PaneToggleSelected));
+        }
+    }
+    private bool _isRootNotSet = true;
+    public bool IsRootNotSet
+    {
+        get => _isRootNotSet;
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _isRootNotSet, value);
+            OnPropertyChanged(nameof(IsRootNotSet));
+        }
+    }
+    IStorageFolder LastSelectedPath;
+    public async void OnInitialDirSelect()
+    {
+        IsRootNotSet = true;
+        var topLevel = TopLevel.GetTopLevel(mainWindow);
+        if (LastSelectedPath is null)
+        {
+            LastSelectedPath = topLevel.StorageProvider.TryGetWellKnownFolderAsync(WellKnownFolder.Downloads).Result;
+        }
+        var directory = await topLevel.StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions
+        {
+            Title = (string)mainWindow.FindResource("menu.files.init.desc"),
+            AllowMultiple = false,
+            SuggestedStartLocation = LastSelectedPath,
+            SuggestedFileName = LastSelectedPath.Path.LocalPath
+
+        });
+        if (!IsPaneOpen)
+        {
+            PaneToggle();
+            PaneToggleSelected = true;
+        }
+        
+
+
+
+        if (directory.Count > 0)
+        {
+            if (directory[0] is null)
+            {
+                return;
+            }
+            string path = directory[0].Path.LocalPath;
+            if (path == string.Empty)
+            {
+                path = LastSelectedPath.Path.LocalPath;
+            }
+            try
+            {
+                Log.Information($"Set Root Path as {path}");
+                DirectoryLoader = new DirectoryLoader(path);
+                LastSelectedPath = directory[0];
+            }
+            catch (Exception e)
+            {
+                Log.Error($"[Failed to set Root Path]{e.ToString}: {e.Message} \n>> traceback: \n\t{e.StackTrace}");
+                var res = await ShowConfirmWindow("menu.files.init.failed");
+            }
+        }
+
+    }
+
 
     public async Task<bool> ShowConfirmWindow(string resourceId)
     {

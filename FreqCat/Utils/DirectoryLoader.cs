@@ -56,7 +56,12 @@ namespace FreqCat.Utils
         public FcDataDir(string dirPath)
         {
             this.DirPath = dirPath;
-            this.DirName = Path.GetFileNameWithoutExtension(dirPath);
+            string dirName = Path.GetFileNameWithoutExtension(dirPath);
+            if (dirName == "")
+            {
+                dirName = dirPath;
+            }
+            this.DirName = dirName;
             this.Datas = Directory.GetFiles(dirPath, "*.frq").Select(x => new FcDataFrq(x)).ToArray();
 
         }
@@ -101,10 +106,14 @@ namespace FreqCat.Utils
         {
             this.RootPath = rootPath;
             this.RootName = Path.GetFileNameWithoutExtension(rootPath);
-            this.Datas = Directory.GetDirectories(rootPath).Select(x => new FcDataDir(x)).ToArray();
-
+            List<FcDataDir> data = new List<FcDataDir>();
+            data = Directory.GetDirectories(rootPath).Select(x => new FcDataDir(x)).ToList();
+            data.Add(new FcDataDir(rootPath));
+            this.Datas = data.ToArray();
             // delete data if there's no valid data
             this.Datas = this.Datas.Where(x => x.Count > 0).ToArray();
+
+            
         }
         /// <summary>
         /// Num of directories

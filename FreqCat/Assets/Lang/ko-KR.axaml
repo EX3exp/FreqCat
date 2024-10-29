@@ -50,6 +50,13 @@
 	<system:String x:Key="menu.files.title">파일</system:String>
 	
 	<system:String x:Key="menu.files.open">열기...</system:String>
+	<system:String x:Key="menu.files.init.desc">frq를 편집할 UTAU의 루트 폴더를 선택해 주세요...</system:String>
+	<system:String x:Key="menu.files.init.btn">frq를 편집할 UTAU의 루트 폴더를 선택해 주세요!</system:String>
+	<system:String x:Key="menu.files.init.failed">
+		프로그램의 초기화 도중 문제가 발생했어요.
+		오류에 관해 자세히 알고 싶다면, 로그 파일을 확인해 주세요.
+	</system:String>
+	
 	<system:String x:Key="menu.files.recent">최근 파일...</system:String>
 	<system:String x:Key="menu.files.openFailed">파일을 열던 도중 문제가 발생했어요. 
 	오류에 관해 자세히 알고 싶다면, 로그 파일을 확인해 주세요.</system:String>

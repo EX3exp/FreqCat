@@ -60,14 +60,12 @@
 			</MenuItem>
 		</Menu>
 		<StackPanel DockPanel.Dock="Top" Height="50" Orientation="Horizontal">
-			<ToggleButton  Height="45" Width="56" Command="{Binding PaneToggle}">
+			<ToggleButton  Height="45" Width="56" Command="{Binding PaneToggle}" IsChecked="{Binding PaneToggleSelected}">
 				<Path Data="{StaticResource chevron_right_regular}" HorizontalAlignment="Left" Width="45" Height="45" Fill="Gray"></Path>
 			</ToggleButton>
 			
-			<TabStrip Margin="5">
-				<TabItem Header="A3"/>
-				<TabItem Header="E4"/>
-				<TabItem Header="G4"/>
+			<TabStrip Margin="5" ItemsSource="{Binding CurrentDirs}" SelectionChanged="OnTabSelected" SelectedIndex="{Binding CurrentDirIndex, Mode=TwoWay}">
+				
 			</TabStrip>
 		</StackPanel>
 		<Grid>
@@ -78,19 +76,9 @@
 				<SplitView.Pane>
 					<ScrollViewer>
 						<StackPanel>
-							<ListBox>
-								<ListBoxItem>
-									<StackPanel Orientation="Horizontal">
-										<PathIcon Data="{DynamicResource IconData.NumberedList}" />
-										<TextBlock Text="aaiauea.frq" />
-									</StackPanel>
-								</ListBoxItem>
-								<ListBoxItem>
-									<StackPanel Orientation="Horizontal">
-										<PathIcon Data="{DynamicResource IconData.BulletedList}" />
-										<TextBlock Text="iiuaeia.frq" />
-									</StackPanel>
-								</ListBoxItem>
+							<ListBox ItemsSource="{Binding CurrentFrqs}" SelectionChanged="OnItemSelected" SelectedIndex="{Binding CurrentFrqIndex, Mode=TwoWay}">
+
+								
 							</ListBox>
 							
 						</StackPanel>
@@ -100,7 +88,7 @@
 				</SplitView.Pane>
 
 				<Grid>
-
+					<Button  HorizontalAlignment="Center" CornerRadius="5" MinHeight="50" MinWidth="200" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="10 10 10 10" VerticalAlignment="Center" Content="{DynamicResource menu.files.init.btn}" FontSize="20" IsVisible="{Binding IsRootNotSet}" Command="{Binding OnInitialDirSelect} "></Button>
 				</Grid>
 			</SplitView>
 		</Grid>

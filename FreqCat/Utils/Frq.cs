@@ -40,7 +40,7 @@ namespace FreqCat.Utils
     [YamlObject]
     public partial class Frq
     {
-        public FrqDataWrapper Data { get; set; }
+        public FrqDataWrapper Data { get; set; } = new FrqDataWrapper();
         [YamlConstructor]
         public Frq() { }
         public Frq(string filePath)

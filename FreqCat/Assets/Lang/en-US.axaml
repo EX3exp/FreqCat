@@ -43,6 +43,13 @@
 	<system:String x:Key="menu.files.title">Files</system:String>
 	
 	<system:String x:Key="menu.files.open">Open...</system:String>
+	<system:String x:Key="menu.files.init.desc">Please Select UTAU's Root Path to edit frq files...</system:String>
+	<system:String x:Key="menu.files.init.btn">Please Select UTAU's Root Path to edit frq files!</system:String>
+	<system:String x:Key="menu.files.init.failed">
+		An Error occured during initialization.
+		Please Check Log file for more informations.
+	</system:String>
+	
 	<system:String x:Key="menu.files.open.upgrade">Project file is newer than software. 
 	Please upgrade MiriVoice!</system:String>
 	<system:String x:Key="menu.files.recent">Recent...</system:String>
