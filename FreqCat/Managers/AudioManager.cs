@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 
-
+using NAudio;
 using Serilog;
 using NetCoreAudio;
 
@@ -41,7 +41,9 @@ namespace FreqCat.Managers
             if (File.Exists(filePath))
             {
                 Log.Debug($"Playing file: {filePath}");
-                await _player.Play(filePath);
+                File.Copy(filePath, Path.Combine(MainManager.Instance.PathM.CachePath, "$.wav"), true);
+                await _player.Play(Path.Combine(MainManager.Instance.PathM.CachePath, "$.wav"));
+              
             }
             else
             {
@@ -77,6 +79,8 @@ namespace FreqCat.Managers
             }
 
         }
+
+
         
     }
 

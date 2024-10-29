@@ -14,6 +14,7 @@ using FreqCat.Format;
 using FreqCat.Utils;
 using System.Linq;
 using Avalonia.Interactivity;
+using Avalonia;
 
 namespace FreqCat.ViewModels;
 
@@ -211,15 +212,30 @@ public class MainViewModel : ViewModelBase
     }
 
     string CurrentWavPath = string.Empty;
-    public void FrqSelectionChanged()
+    private Points _currentWavPlotPoints = new();
+    public Points CurrentWavPlotPoints
     {
+        get => _currentWavPlotPoints;
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _currentWavPlotPoints, value);
+            OnPropertyChanged(nameof(CurrentWavPlotPoints));
+        }
+    }
+    public void FrqSelectionChanged(double canvasWidth, double canvasHeight)
+    {
+        if (frqIndexes is null)
+        {
+            return; // not initialized
+        }
         // frq selection changed
         frqIndexes[CurrentDirIndex] = CurrentFrqIndex;
 
         // change frq name
         CurrentFrqName = Path.GetFileName(DirectoryLoader.Data.Datas[CurrentDirIndex].Datas[CurrentFrqIndex].FilePath);
         CurrentWavPath = Path.Combine(DirectoryLoader.Data.Datas[CurrentDirIndex].Datas[CurrentFrqIndex].FilePath.Replace("_wav.frq", ".wav"));
-
+        CurrentWavPlotPoints = WavPlotter.GetWavFormPoints(CurrentWavPath, canvasWidth, canvasHeight);
+        
         // todo show graphics. if selected frq is not exist, show error message
     }
 
@@ -284,8 +300,8 @@ public class MainViewModel : ViewModelBase
             {
                 try
                 {
-                    //Log.Information("Clearing cache...");
-                    //ClearCache();
+                    Log.Information("Clearing cache...");
+                    ClearCache();
                 }
                 catch (Exception ex)
                 {
@@ -432,9 +448,19 @@ public class MainViewModel : ViewModelBase
                 return false;
         }
     }
-    public void clearCache()
+    public void ClearCache()
     {
-        // TODO
+        foreach (var file in Directory.GetFiles(MainManager.Instance.PathM.CachePath))
+        {
+            try
+            {
+                File.Delete(file);
+            }
+            catch (Exception e)
+            {
+                Log.Error($"Failed to delete cache file: {file} {e.Message}");
+            }
+        }
     }
     public async Task OpenProject(string path)
     {

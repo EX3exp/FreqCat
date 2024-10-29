@@ -89,7 +89,7 @@
 
 				<Grid>
 					
-					<Grid RowDefinitions="30 *">
+					<Grid RowDefinitions="30 *" >
 						<StackPanel Grid.Row="0"  Orientation="Horizontal" Height="30">
 							<Button Command="{Binding OnPlayButtonClick}" Width="30" Height="30" Margin="10 0 0 0">
 								<Path Data="{StaticResource speaker_regular}" Stretch="Fill" ClipToBounds="True" Margin="0 0 0 0"  Width="25" Height="25" Fill="Gray"/>
@@ -97,9 +97,13 @@
 							<TextBlock Text="{Binding CurrentFrqName}" Margin="10 3 10 3" FontSize="20" HorizontalAlignment="Center"></TextBlock>
 							
 						</StackPanel>
-						<Rectangle Grid.Row="1" Fill="LightGreen">
-								
-						</Rectangle>
+
+						<ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Visible" AllowAutoHide="False" VerticalScrollBarVisibility="Disabled">
+							<Canvas x:Name="catCanvas" >
+								<Polyline Points="{Binding CurrentWavPlotPoints}" VerticalAlignment="Center" Stroke="LightGreen" StrokeThickness="1"></Polyline>
+							</Canvas>
+						</ScrollViewer>
+
 
 					</Grid>
 					
