@@ -21,14 +21,14 @@ public partial class App : Application
     public override void Initialize()
     {
         Log.Information("App Initialize");
-        InitMirivoice();
+        InitFreqCat();
         InitializeComponent();
         InitializeCulture();
     }
-    public static void InitMirivoice()
+    public static void InitFreqCat()
     {
 
-        Log.Information("Mirivoice init");
+        Log.Information("FreqCat init");
         MainManager.Instance.Initialize();
 
 

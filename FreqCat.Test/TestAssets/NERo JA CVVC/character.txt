@@ -1,0 +1,7 @@
+name=NERo(JA CVVC)
+image=icon.bmp
+sample=sample.wav
+author=A2NE(EX3)
+tribe=android or black cat
+likes=anchovy
+dislikes=BUGS

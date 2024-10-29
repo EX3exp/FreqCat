@@ -5,36 +5,44 @@ using System.Linq;
 using System.Text;
 using Serilog;
 using System.Threading.Tasks;
+using VYaml.Annotations;
 
-namespace FreqCat.Format
+namespace FreqCat.Utils
 {
-    
 
-    public class FrqChunk 
+    [YamlObject]
+    public partial class FrqChunk
     {
         public double Frequency { get; set; }
         public double Amplitude { get; set; }
 
+        [YamlConstructor]
+        public FrqChunk() { }
         public FrqChunk(double frequency, double amplitude)
         {
             Frequency = frequency;
             Amplitude = amplitude;
         }
     }
-    public class FrqDataWrapper 
+    [YamlObject]
+    public partial class FrqDataWrapper
     {
         public string HeaderText { get; set; }
         public int SamplesPerFrq { get; set; }
         public int NumOfChunks { get; set; }
         public double AverageFrq { get; set; }
-
         public FrqChunk[] Chunks { get; set; }
+
+        [YamlConstructor]
+        public FrqDataWrapper() { }
     }
 
-    public class Frq
+    [YamlObject]
+    public partial class Frq
     {
         public FrqDataWrapper Data { get; set; }
-
+        [YamlConstructor]
+        public Frq() { }
         public Frq(string filePath)
         {
             try

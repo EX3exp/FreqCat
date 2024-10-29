@@ -1,0 +1,73 @@
+﻿name: NERo(JA CVVC)
+singer_type: utau
+text_file_encoding: shift_jis
+image: img\icon.png
+portrait: img\standing_ou.png
+portrait_opacity: 1
+portrait_height: 0
+author: A2NE(EX3)
+voice: A2NE(EX3)
+web: https://ex3exp.github.io/VB-dister/pages/#
+version: 1.0.0
+default_phonemizer: OpenUtau.Plugin.Builtin.JapanesePresampPhonemizer
+subbanks:
+- color: ""
+  prefix: ""
+  suffix: G#4
+  tone_ranges:
+  - A4-B7
+- color: ""
+  prefix: ""
+  suffix: F#4
+  tone_ranges:
+  - G4-G#4
+- color: ""
+  prefix: ""
+  suffix: D#4
+  tone_ranges:
+  - D4-F#4
+- color: ""
+  prefix: ""
+  suffix: C#4
+  tone_ranges:
+  - A#3-C#4
+- color: ""
+  prefix: ""
+  suffix: A#3
+  tone_ranges:
+  - G#3-A3
+- color: ""
+  prefix: ""
+  suffix: G#3
+  tone_ranges:
+  - C1-G3
+- color: Edge(a i u e o n N)
+  prefix: ""
+  suffix: EG#4
+  tone_ranges:
+  - A4-B7
+- color: Edge(a i u e o n N)
+  prefix: ""
+  suffix: EF#4
+  tone_ranges:
+  - G4-G#4
+- color: Edge(a i u e o n N)
+  prefix: ""
+  suffix: ED#4
+  tone_ranges:
+  - D4-F#4
+- color: Edge(a i u e o n N)
+  prefix: ""
+  suffix: EC#4
+  tone_ranges:
+  - A#3-C#4
+- color: Edge(a i u e o n N)
+  prefix: ""
+  suffix: EA#3
+  tone_ranges:
+  - G#3-A3
+- color: Edge(a i u e o n N)
+  prefix: ""
+  suffix: EG#3
+  tone_ranges:
+  - C1-G3

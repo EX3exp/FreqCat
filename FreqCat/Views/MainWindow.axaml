@@ -9,4 +9,5 @@
         Icon="/Assets/avalonia-logo.ico"
         Title="{Binding Title}">
         <views:MainView />
+	
 </Window>

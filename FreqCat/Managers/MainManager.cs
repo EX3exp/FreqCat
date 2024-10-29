@@ -95,11 +95,6 @@ namespace FreqCat
 
         public static void CheckDirs()
         {
-            // Check voicer path
-            if (!System.IO.Directory.Exists(MainManager.Instance.PathM.VoicerPath))
-            {
-                System.IO.Directory.CreateDirectory(MainManager.Instance.PathM.VoicerPath);
-            }
 
             if (!System.IO.Directory.Exists(MainManager.Instance.PathM.CachePath))
             {

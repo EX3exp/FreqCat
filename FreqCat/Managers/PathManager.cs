@@ -40,8 +40,8 @@ namespace FreqCat.Managers
             {
                 AssetsPath = Path.Combine(RootPath, "Assets");
                 string userHome = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-                DataPath = Path.Combine(userHome, "MiriVoice", "Datas");
-                CachePath = Path.Combine(userHome, "MiriVoice", "Caches");
+                DataPath = Path.Combine(userHome, "FreqCat", "Datas");
+                CachePath = Path.Combine(userHome, "FreqCat", "Caches");
                 HomePathIsAscii = true;
                 SettingsPath = Path.Combine(DataPath, "settings.yaml");
                 RecentFilesPath = Path.Combine(DataPath, "recent_files.yaml");
@@ -56,13 +56,13 @@ namespace FreqCat.Managers
                 {
                     dataHome = Path.Combine(userHome, ".local", "share");
                 }
-                DataPath = Path.Combine(dataHome, "MiriVoice");
+                DataPath = Path.Combine(dataHome, "FreqCat");
                 string cacheHome = Environment.GetEnvironmentVariable("XDG_CACHE_HOME");
                 if (string.IsNullOrEmpty(cacheHome))
                 {
                     cacheHome = Path.Combine(userHome, ".cache");
                 }
-                CachePath = Path.Combine(cacheHome, "MiriVoice");
+                CachePath = Path.Combine(cacheHome, "FreqCat");
                 HomePathIsAscii = true;
                 SettingsPath = Path.Combine(DataPath, "settings.yaml");
                 RecentFilesPath = Path.Combine(DataPath, "recent_files.yaml");
@@ -79,7 +79,7 @@ namespace FreqCat.Managers
                 else
                 {
                     string dataHome = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-                    DataPath = Path.Combine(dataHome, "MiriVoice");
+                    DataPath = Path.Combine(dataHome, "FreqCat");
                 }
                 CachePath = Path.Combine(DataPath, "Cache");
                 HomePathIsAscii = true;

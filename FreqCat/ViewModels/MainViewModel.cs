@@ -69,6 +69,17 @@ public class MainViewModel : ViewModelBase
         }
     }
 
+    private bool _isPaneOpen;
+    public bool IsPaneOpen
+    {
+        get => _isPaneOpen;
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _isPaneOpen, value);
+            OnPropertyChanged(nameof(IsPaneOpen));
+        }
+    }
+
     public ObservableCollection<MenuItem> RecentMenuCollection { get; set; } = new ObservableCollection<MenuItem>();
     public static FilePickerFileType FreqCatProject { get; } = new("FreqCat Project File")
     {
@@ -77,11 +88,17 @@ public class MainViewModel : ViewModelBase
         MimeTypes = new[] { "FreqCatProject/*" }
     };
 
+    
     public MainViewModel(MainWindow window)
     {
         mainWindow = window;
 
         mainWindow.Closing += WindowClosing;
+
+        if (CurrentProjectPath == null || CurrentProjectPath == string.Empty)
+        {
+            CurrentProjectPath = (string)mainWindow.FindResource("app.defprojectname");
+        }
     }
 
     bool forceClose = false;
@@ -135,6 +152,10 @@ public class MainViewModel : ViewModelBase
         }
     }
 
+    public void PaneToggle()
+    {
+        IsPaneOpen = !IsPaneOpen;
+    }
     public async Task<bool> AskIfSaveAndContinueForUpdate()
     {
 
