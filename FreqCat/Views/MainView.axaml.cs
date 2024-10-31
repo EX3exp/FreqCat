@@ -14,6 +14,7 @@ using R3;
 using Avalonia.Threading;
 
 using Avalonia.Animation.Easings;
+using FreqCat.Commands;
 namespace FreqCat.Views;
 
 public partial class MainView : UserControl
@@ -259,6 +260,7 @@ public partial class MainView : UserControl
     bool isDragging = false; // when left click or right click is pressed
     bool isReseting = false; // when right click is pressed
     double drawStartTime = 0;
+    LineEditCommand lineEditCommand;
     private void OnPointerPressed(object sender, PointerPressedEventArgs e)
     {
         isDragging = true;
@@ -270,12 +272,14 @@ public partial class MainView : UserControl
             StartPos = p;
             isReseting = false;
             lastX = p;
+            lineEditCommand = new LineEditCommand(viewModel);
         }
         else if (e.GetCurrentPoint(catCanvas).Properties.IsRightButtonPressed)
         {
             StartPos = p;
             isReseting = true;
             lastX = p;
+            lineEditCommand = new LineEditCommand(viewModel);
         }
         else
         {
@@ -507,7 +511,6 @@ public partial class MainView : UserControl
             return;
         }
 
-
         Points OriginalPoints = FrqPlotter.GetFrqPoints(viewModel.CurrentFrq, canvasWidth, canvasHeight, (int)canvasHeight);
         viewModel.CurrentFrq = new Frq(FrqPlotter.ReverseFrqPoints(viewModel.CurrentFrq, viewModel.CurrentFrqPlotPoints, canvasWidth ,canvasHeight, (int)canvasHeight));
 
@@ -518,6 +521,7 @@ public partial class MainView : UserControl
         isDragging = false;
         isReseting = false;
         viewModel.FrqSelectionChanged(canvasWidth, canvasHeight);
+        MainManager.Instance.cmd.ExecuteCommand(lineEditCommand);
     }
 
     private async void OnSaveClick(object sender, RoutedEventArgs e)

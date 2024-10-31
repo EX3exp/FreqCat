@@ -228,7 +228,7 @@ public class MainViewModel : ViewModelBase
     }
 
     public Points lastFrqPlotPoints = new();
-    private Points _currentFrqPlotPoints = new();
+    public Points _currentFrqPlotPoints = new();
     public Points CurrentFrqPlotPoints
     {
         get => _currentFrqPlotPoints;
@@ -617,5 +617,15 @@ public class MainViewModel : ViewModelBase
             SaveAsGesture = new KeyGesture(Key.S, KeyModifiers.Meta | KeyModifiers.Shift);
             NewGesture = new KeyGesture(Key.N, KeyModifiers.Meta);
         }
+    }
+
+    public void Undo()
+    {
+        MainManager.Instance.cmd.Undo();
+    }
+
+    public void Redo()
+    {
+        MainManager.Instance.cmd.Redo();
     }
 }
