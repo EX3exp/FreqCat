@@ -21,12 +21,12 @@ namespace FreqCat.Utils
         /// </summary>
         /// <param name="filePath"></param>
         /// <returns></returns>
-        private static float[] ExtractAudioSamples(string filePath, int targetsampleAmt, double Height)
+        private static float[] ExtractAudioSamples(string filePath, int targetsampleAmt, double Height, int waveformHeight)
         {
-            using (var audioFile = new AudioFileReader(filePath))
+            using (AudioFileReader audioFile = new AudioFileReader(filePath))
             {
                 int sampleCount = (int)(audioFile.Length / sizeof(float));
-                var samples = new float[sampleCount];
+                float[] samples = new float[sampleCount];
                 int samplesRead = audioFile.Read(samples, 0, sampleCount);
 
                 // if stereo, average the channels and make it mono
@@ -60,7 +60,7 @@ namespace FreqCat.Utils
                 return samples;
             }
             int sampleStep = samples.Length / targetSampleCount;
-            var downsampled = new float[targetSampleCount];
+            float[] downsampled = new float[targetSampleCount];
 
             for (int i = 0; i < targetSampleCount; ++i)
             {
@@ -84,7 +84,7 @@ namespace FreqCat.Utils
 
             for (int i = 0; i < samples.Length; ++i)
             {
-                samples[i] = (float)((samples[i] - _ymin) / maxminusmin);
+                samples[i] = 1 - (float)((samples[i] - _ymin) / maxminusmin);
             }
             return samples;
         }
@@ -97,9 +97,9 @@ namespace FreqCat.Utils
         /// <param name="dpi"></param>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        public static Points GetWavFormPoints(string filePath, double Width, double Height)
+        public static Points GetWavFormPoints(string filePath, double Width, double Height, int waveformHeight = 800)
         {
-            float[] samples = ExtractAudioSamples(filePath, 9216, Height);
+            float[] samples = ExtractAudioSamples(filePath, 9216, Height, waveformHeight);
             Points points = new Points();
 
             for (int i = 0; i < samples.Length; ++i)

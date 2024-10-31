@@ -8,7 +8,8 @@ using System.Threading.Tasks;
 using VYaml.Serialization;
 using FreqCat.Utils;
 using FreqCat.Format;
-
+using R3;
+using Avalonia.Threading;
 
 namespace FreqCat
 {
@@ -30,9 +31,21 @@ namespace FreqCat
         public UserSetting Setting = new UserSetting();
         public RecentFiles Recent = new RecentFiles();
 
+        /// <summary>
+        /// Current Elapsed Time in Seconds
+        /// </summary>
+        public double CurrentTime = 0;
 
         public void Initialize()
         {
+            EventHandler timerHandler = (sender, e) =>
+            {
+               CurrentTime += 0.001;
+                
+            };
+            DispatcherTimer timer = new DispatcherTimer(TimeSpan.FromMilliseconds(1), DispatcherPriority.Loaded, timerHandler);
+
+
 
             CheckDirs();
             LoadSetting();
@@ -40,6 +53,7 @@ namespace FreqCat
             InitializationTask = Task.Run(() => {
                 Log.Information("MainManager Initialize Start");
             });
+
             
         }
 

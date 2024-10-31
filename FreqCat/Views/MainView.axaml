@@ -18,8 +18,8 @@
 				<MenuItem Header="{DynamicResource menu.files.recent}" ItemsSource="{Binding RecentMenuCollection}">
 
 				</MenuItem>
-				<MenuItem Header="{DynamicResource menu.files.save}" Command="{Binding OnSaveButtonClick}" InputGesture="{Binding SaveGesture}"/>
-				<MenuItem Header="{DynamicResource menu.files.saveas}" Command="{Binding OnSaveAsButtonClick}" InputGesture="{Binding SaveAsGesture}"/>
+				<MenuItem Header="{DynamicResource menu.files.save}" Click="OnSaveClick"  InputGesture="{Binding SaveGesture}"/>
+				<MenuItem Header="{DynamicResource menu.files.saveas}" Click="OnSaveAsClick" InputGesture="{Binding SaveAsGesture}"/>
 				<Separator/>
 				<MenuItem Header="{DynamicResource menu.files.export}">
 					<MenuItem Header="{DynamicResource menu.files.export.perLine}" Command="{Binding OnExportAudioPerLineClick}"></MenuItem>
@@ -97,10 +97,13 @@
 							<TextBlock Text="{Binding CurrentFrqName}" Margin="10 3 10 3" FontSize="20" HorizontalAlignment="Center"></TextBlock>
 							
 						</StackPanel>
-
-						<ScrollViewer Grid.Row="1" PointerWheelChanged="OnPointerWheelChanged" HorizontalScrollBarVisibility="Visible" AllowAutoHide="False" VerticalScrollBarVisibility="Disabled">
-							<Canvas x:Name="catCanvas" ClipToBounds="True">
-								<Polyline Points="{Binding CurrentWavPlotPoints}" VerticalAlignment="Center" Stroke="LightGreen" StrokeThickness="1"></Polyline>
+						<Canvas Grid.Row="1" x:Name="GridCanvas" ClipToBounds="True" UseLayoutRounding="True">
+							
+						</Canvas>
+						<ScrollViewer Grid.Row="1" PointerPressed="OnPointerPressed" PointerMoved="OnPointerMoved" PointerReleased="OnPointerReleased" PointerWheelChanged="OnPointerWheelChanged" HorizontalScrollBarVisibility="Visible" AllowAutoHide="False" VerticalScrollBarVisibility="Disabled">
+							<Canvas x:Name="catCanvas" ClipToBounds="True" UseLayoutRounding="True">
+								<Polyline Points="{Binding CurrentWavPlotPoints}" VerticalAlignment="Center" Stroke="LightGreen" Opacity="0.4" StrokeThickness="3"></Polyline>
+								<Polyline Points="{Binding CurrentFrqPlotPoints}" VerticalAlignment="Center" Stroke="DarkOliveGreen"  StrokeThickness="2"></Polyline>
 							</Canvas>
 						</ScrollViewer>
 

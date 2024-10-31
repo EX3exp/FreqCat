@@ -10,6 +10,7 @@ using VYaml.Annotations;
 using VYaml.Serialization;
 using FreqCat.Managers;
 using FreqCat.ViewModels;
+using FreqCat.Utils;
 
 
 namespace FreqCat.Format
@@ -19,6 +20,7 @@ namespace FreqCat.Format
     public partial class Fcat
     {
         public Version Version { get; set; } = new Version(0, 2);
+        public FcDataRoot FcDataRoot { get; set; }
 
         [YamlIgnore]
         public Version CurrentVersion = new Version(0, 2);
@@ -31,6 +33,7 @@ namespace FreqCat.Format
         public Fcat(MainViewModel v)
         {
             Version = CurrentVersion;
+            this.FcDataRoot = v.DirectoryLoader.Data;
         }
 
         
@@ -54,7 +57,7 @@ namespace FreqCat.Format
             await Dispatcher.UIThread.InvokeAsync(async () =>
             {
 
-                // TODO: Implement Load
+                v.DirectoryLoader = new DirectoryLoader(FcDataRoot);
 
             }, DispatcherPriority.Send);
             await Dispatcher.UIThread.InvokeAsync(() =>

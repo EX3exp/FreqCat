@@ -17,6 +17,7 @@ using Avalonia.Interactivity;
 using Avalonia;
 using Avalonia.Input;
 using Avalonia.Input.Raw;
+using VYaml.Serialization;
 
 namespace FreqCat.ViewModels;
 
@@ -201,7 +202,7 @@ public class MainViewModel : ViewModelBase
         {
             CurrentProjectPath = (string)mainWindow.FindResource("app.defprojectname");
         }
-        initFcat = new Fcat(this);
+        LoadRecentFIles();
         SetGestures();
         MainManager.Instance.cmd.SetMainViewModel(this);
         OnInitialDirSelect();
@@ -225,6 +226,58 @@ public class MainViewModel : ViewModelBase
             OnPropertyChanged(nameof(CurrentWavPlotPoints));
         }
     }
+
+    public Points lastFrqPlotPoints = new();
+    private Points _currentFrqPlotPoints = new();
+    public Points CurrentFrqPlotPoints
+    {
+        get => _currentFrqPlotPoints;
+        set
+        {
+            if (value is null)
+            {
+                Log.Debug("CurrentFrqPlotPoints is null");
+                return;
+            }
+            if (lastFrqPlotPoints.Count == 0)
+            {
+                lastFrqPlotPoints = value;
+            }
+            else
+            {
+                lastFrqPlotPoints = _currentFrqPlotPoints;
+            }
+            this.RaiseAndSetIfChanged(ref _currentFrqPlotPoints, value);
+
+            
+            OnPropertyChanged(nameof(CurrentFrqPlotPoints));
+        }
+    }
+    private double _ratio = 1; // canvasWidth = minCanvasWidth + (minCanvasWidth * ratio)
+    public double Ratio
+    {
+        get => _ratio;
+        set
+        {
+            if (value < 0.2)
+            {
+                value = 0.2;
+            }
+            this.RaiseAndSetIfChanged(ref _ratio, value);
+            Log.Debug($"Ratio: {value}");
+            OnPropertyChanged(nameof(Ratio));
+        }
+    }
+
+    public Frq CurrentFrq
+    {
+        get => DirectoryLoader.Data.Datas[CurrentDirIndex].Datas[CurrentFrqIndex].Frq;
+        set
+        {
+            DirectoryLoader.Data.Datas[CurrentDirIndex].Datas[CurrentFrqIndex].Frq = value;
+            OnPropertyChanged(nameof(CurrentFrq));
+        }
+    }
     public void FrqSelectionChanged(double canvasWidth, double canvasHeight)
     {
         if (frqIndexes is null)
@@ -244,9 +297,11 @@ public class MainViewModel : ViewModelBase
 
         // change frq name
         CurrentFrqName = Path.GetFileName(DirectoryLoader.Data.Datas[CurrentDirIndex].Datas[CurrentFrqIndex].FilePath);
+
         CurrentWavPath = Path.Combine(DirectoryLoader.Data.Datas[CurrentDirIndex].Datas[CurrentFrqIndex].FilePath.Replace("_wav.frq", ".wav"));
-        CurrentWavPlotPoints = WavPlotter.GetWavFormPoints(CurrentWavPath, canvasWidth, canvasHeight);
-        
+        CurrentWavPlotPoints = WavPlotter.GetWavFormPoints(CurrentWavPath, canvasWidth, canvasHeight, (int)canvasHeight);
+        CurrentFrqPlotPoints = FrqPlotter.GetFrqPoints(CurrentFrq, canvasWidth, canvasHeight, (int)canvasHeight);
+
         // todo show graphics. if selected frq is not exist, show error message
     }
 
@@ -353,23 +408,6 @@ public class MainViewModel : ViewModelBase
         }
     }
 
-    public void OnZoom(double zoomAmt)
-    {
-        Log.Debug($"Zooming: {zoomAmt}");
-        // TODO
-    }
-        public void SetGestures()
-    {
-        if (OS.IsMacOS())
-        {
-            
-           
-        }
-        else
-        {
-            
-        }
-    }
     public void PaneToggle()
     {
         IsPaneOpen = !IsPaneOpen;
@@ -528,6 +566,56 @@ public class MainViewModel : ViewModelBase
                 RecentFiles.AddRecentFile(CurrentProjectPath, this);
                 OnPropertyChanged(nameof(RecentMenuCollection));
             }
+        }
+    }
+
+    public void LoadRecentFIles()
+    {
+        if (!File.Exists(MainManager.Instance.PathM.RecentFilesPath))
+        {
+            RecentFiles = new RecentFiles();
+            RecentFiles.Save();
+            RecentFiles.Validate();
+            OnPropertyChanged(nameof(RecentMenuCollection));
+
+        }
+        else
+        {
+            var yamlUtf8Bytes = System.Text.Encoding.UTF8.GetBytes(MainManager.Instance.ReadTxtFile(MainManager.Instance.PathM.RecentFilesPath));
+            RecentFiles = YamlSerializer.Deserialize<RecentFiles>(yamlUtf8Bytes);
+            RecentFiles.Validate();
+            OnPropertyChanged(nameof(RecentMenuCollection));
+        }
+        RecentFiles.UpdateUI(this); // update UI
+    }
+
+    // Key gestures
+    public KeyGesture UndoGesture { get; set; }
+    public KeyGesture RedoGesture { get; set; }
+    public KeyGesture OpenGesture { get; set; }
+    public KeyGesture SaveGesture { get; set; }
+    public KeyGesture SaveAsGesture { get; set; }
+    public KeyGesture NewGesture { get; set; }
+
+    void SetGestures()
+    {
+        if (OS.IsWindows() || OS.IsLinux())
+        {
+            UndoGesture = new KeyGesture(Key.Z, KeyModifiers.Control);
+            RedoGesture = new KeyGesture(Key.Y, KeyModifiers.Control);
+            OpenGesture = new KeyGesture(Key.O, KeyModifiers.Control);
+            SaveGesture = new KeyGesture(Key.S, KeyModifiers.Control);
+            SaveAsGesture = new KeyGesture(Key.S, KeyModifiers.Control | KeyModifiers.Shift);
+            NewGesture = new KeyGesture(Key.N, KeyModifiers.Control);
+        }
+        else // MacOS
+        {
+            UndoGesture = new KeyGesture(Key.Z, KeyModifiers.Meta);
+            RedoGesture = new KeyGesture(Key.Y, KeyModifiers.Meta);
+            OpenGesture = new KeyGesture(Key.O, KeyModifiers.Meta);
+            SaveGesture = new KeyGesture(Key.S, KeyModifiers.Meta);
+            SaveAsGesture = new KeyGesture(Key.S, KeyModifiers.Meta | KeyModifiers.Shift);
+            NewGesture = new KeyGesture(Key.N, KeyModifiers.Meta);
         }
     }
 }

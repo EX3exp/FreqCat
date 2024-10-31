@@ -14,8 +14,8 @@ namespace FreqCat.Utils
     [YamlObject]
     public partial class FcDataFrq
     {
-        Frq Frq { get; set; }
-
+        public Frq Frq { get; set; }
+        
         public string FilePath { get; set; }
         public string FileName { get; set; }
 
@@ -28,7 +28,7 @@ namespace FreqCat.Utils
             this.FileName = Path.GetFileNameWithoutExtension(filePath);
         }
 
-        public override string ToString()
+        public string ToPrintString()
         {
             StringBuilder sb = new StringBuilder();
             sb.AppendLine($"File: {FileName}");
@@ -71,7 +71,7 @@ namespace FreqCat.Utils
         [YamlIgnore]
         public int Count => Datas.Length;
 
-        public override string ToString()
+        public string ToPrintString()
         {
             StringBuilder sb = new StringBuilder();
             sb.AppendLine($">> Directory: {DirName}");
@@ -79,7 +79,7 @@ namespace FreqCat.Utils
             foreach (var data in Datas)
             {
                 sb.Append("\t");
-                sb.Append(data.ToString());
+                sb.Append(data.ToPrintString());
             }
             return sb.ToString();
         }
@@ -115,20 +115,23 @@ namespace FreqCat.Utils
 
             
         }
+
+
         /// <summary>
         /// Num of directories
         /// </summary>
         [YamlIgnore]
         public int Count => Datas.Length;
 
-        public override string ToString()
+
+        public string ToPrintString()
         {
             StringBuilder sb = new StringBuilder();
             sb.AppendLine($">> Root: {RootName}");
             sb.AppendLine($">> Num of directories: {Count}");
             foreach (var data in Datas)
             {
-                sb.Append(data.ToString());
+                sb.Append(data.ToPrintString());
                 sb.Append("\n");
             }
             return sb.ToString();
@@ -141,6 +144,11 @@ namespace FreqCat.Utils
         public DirectoryLoader(string rootPath)
         {
             this.Data = new FcDataRoot(rootPath);
+        }
+
+        public DirectoryLoader(FcDataRoot data)
+        {
+            Data = data;
         }
     }
 }

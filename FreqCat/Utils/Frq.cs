@@ -43,6 +43,19 @@ namespace FreqCat.Utils
         public FrqDataWrapper Data { get; set; } = new FrqDataWrapper();
         [YamlConstructor]
         public Frq() { }
+        public Frq(float[] frequencies)
+        {
+            Data = new FrqDataWrapper();
+            Data.NumOfChunks = frequencies.Length;
+            Data.Chunks = new FrqChunk[frequencies.Length];
+            for (int i = 0; i < frequencies.Length; i++)
+            {
+                Data.Chunks[i] = new FrqChunk(frequencies[i], 1);
+            }
+            Data.AverageFrq = frequencies.Average();
+            Data.HeaderText = "FREQ0003";
+        }
+
         public Frq(string filePath)
         {
             try
@@ -74,7 +87,6 @@ namespace FreqCat.Utils
                     f.Read(numChunksBytes, 0, 4);
                     Data.NumOfChunks = BitConverter.ToInt32(numChunksBytes, 0);
 
-                    Console.WriteLine("\nFrequency | Amplitude");
                     List<FrqChunk> chunks = new List<FrqChunk>();
                     for (int chunk = 0; chunk < Data.NumOfChunks; chunk++)
                     {
@@ -89,7 +101,7 @@ namespace FreqCat.Utils
                         chunks.Add(new FrqChunk(frequency, amplitude));
                     }
                     Data.Chunks = chunks.ToArray();
-                    Log.Information($"Frq file loaded successfully. - {filePath}");
+                    //Log.Information($"Frq file loaded successfully. - {filePath}");
                 }
             }
             catch (Exception e)
