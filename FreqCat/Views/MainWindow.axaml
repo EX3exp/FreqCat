@@ -8,4 +8,12 @@
         x:Class="FreqCat.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
         Title="{Binding Title}">
+	<Window.KeyBindings>
+	    <KeyBinding Gesture="{Binding UndoGesture}" Command="{Binding Undo}" />
+	    <KeyBinding Gesture="{Binding RedoGesture}" Command="{Binding Redo}" />
+	    <KeyBinding Gesture="{Binding OpenGesture}" Command="{Binding OnOpenButtonClick}" />
+	    <KeyBinding Gesture="{Binding SaveGesture}" Command="{Binding OnSaveClick}" />
+	    <KeyBinding Gesture="{Binding SaveAsGesture}" Command="{Binding OnSaveAsClick}" />
+	    <KeyBinding Gesture="{Binding NewGesture}" Command="{Binding OnNewButtonClick}" />
+	</Window.KeyBindings>
 </Window>

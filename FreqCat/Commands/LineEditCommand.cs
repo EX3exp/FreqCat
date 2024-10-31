@@ -13,7 +13,7 @@ namespace FreqCat.Commands
         readonly MainViewModel viewModel;
         public LineEditCommand(MainViewModel viewModel)
         {
-            Log.Debug("LineEditCommand created");
+            //Log.Debug("LineEditCommand created");
             this.viewModel = viewModel;
             undoMem = viewModel.CurrentFrqPlotPoints;
         }
@@ -32,12 +32,12 @@ namespace FreqCat.Commands
         {
             if (isRedoing)
             {
-                Log.Debug($"Redoing LineEditCommand - redomem: {PrintPoints(redoMem)}");
+                //Log.Debug($"Redoing LineEditCommand - redomem: {PrintPoints(redoMem)}");
                 viewModel.CurrentFrqPlotPoints = redoMem;
             }
             else
             {
-                Log.Debug($"Executing LineEditCommand - undomem: {PrintPoints(viewModel.CurrentFrqPlotPoints)}");
+                //Log.Debug($"Executing LineEditCommand - undomem: {PrintPoints(viewModel.CurrentFrqPlotPoints)}");
                 if (!isFirstExec)
                 {
                     undoMem = viewModel.CurrentFrqPlotPoints;
@@ -51,8 +51,8 @@ namespace FreqCat.Commands
             
             redoMem = viewModel.CurrentFrqPlotPoints;
             viewModel.CurrentFrqPlotPoints = undoMem;
-            Log.Debug($"Unexecuting LineEditCommand - undomem: {PrintPoints(undoMem)}");
-            Log.Debug($"Unexecuting LineEditCommand - redomem: {PrintPoints(redoMem)}");
+            //Log.Debug($"Unexecuting LineEditCommand - undomem: {PrintPoints(undoMem)}");
+            //Log.Debug($"Unexecuting LineEditCommand - redomem: {PrintPoints(redoMem)}");
         }
     }
 }

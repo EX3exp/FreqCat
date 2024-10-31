@@ -18,8 +18,8 @@
 				<MenuItem Header="{DynamicResource menu.files.recent}" ItemsSource="{Binding RecentMenuCollection}">
 
 				</MenuItem>
-				<MenuItem Header="{DynamicResource menu.files.save}" Click="OnSaveClick"  InputGesture="{Binding SaveGesture}"/>
-				<MenuItem Header="{DynamicResource menu.files.saveas}" Click="OnSaveAsClick" InputGesture="{Binding SaveAsGesture}"/>
+				<MenuItem Header="{DynamicResource menu.files.save}" Command="{Binding OnSaveClick}"  InputGesture="{Binding SaveGesture}"/>
+				<MenuItem Header="{DynamicResource menu.files.saveas}" Command="{Binding OnSaveAsClick}" InputGesture="{Binding SaveAsGesture}"/>
 				<Separator/>
 				<MenuItem Header="{DynamicResource menu.files.export}">
 					<MenuItem Header="{DynamicResource menu.files.export.perLine}" Command="{Binding OnExportAudioPerLineClick}"></MenuItem>

@@ -619,6 +619,16 @@ public class MainViewModel : ViewModelBase
         }
     }
 
+    private async void OnSaveClick()
+    {
+        await SaveProject();
+    }
+
+    private async void OnSaveAsClick()
+    {
+        await SaveProject(forceSaveAs: true);
+    }
+
     public void Undo()
     {
         MainManager.Instance.cmd.Undo();
